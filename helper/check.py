@@ -41,7 +41,8 @@ class DoValidator(object):
         """
         http_r = cls.httpValidator(proxy)
         https_r = False if not http_r else cls.httpsValidator(proxy)
-
+        # 新增：仅当HTTP验证通过时，才验证SOCKS5
+        socks5_r = False if not http_r else cls.socks5Validator(proxy)
         proxy.check_count += 1
         proxy.last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         proxy.last_status = True if http_r else False
@@ -49,6 +50,7 @@ class DoValidator(object):
             if proxy.fail_count > 0:
                 proxy.fail_count -= 1
             proxy.https = True if https_r else False
+            proxy.socks5 = True if socks5_r else False  # 新增：设置SOCKS5属性
             if work_type == "raw":
                 proxy.region = cls.regionGetter(proxy) if cls.conf.proxyRegion else ""
         else:
@@ -61,7 +63,13 @@ class DoValidator(object):
             if not func(proxy.proxy):
                 return False
         return True
-
+    # 新增：SOCKS5验证方法
+    @classmethod
+    def socks5Validator(cls, proxy):
+        for func in ProxyValidator.socks5_validator:
+            if not func(proxy.proxy):
+                return False
+        return True
     @classmethod
     def httpsValidator(cls, proxy):
         for func in ProxyValidator.https_validator:
