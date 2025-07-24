@@ -1,3 +1,9 @@
+'''
+Date: 2025-07-24 11:04:34
+LastEditors: 马艳龙 myl86898244@gmail.com
+LastEditTime: 2025-07-24 11:25:39
+FilePath: \proxy_pool\handler\proxyHandler.py
+'''
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
@@ -26,22 +32,32 @@ class ProxyHandler(object):
         self.db = DbClient(self.conf.dbConn)
         self.db.changeTable(self.conf.tableName)
 
-    def get(self, https=False):
+    def get(self, https=False, socks5=False, socks4=False):
         """
         return a proxy
         Args:
             https: True/False
         Returns:
         """
-        proxy = self.db.get(https)
+        if socks5:
+            proxy = self.db.get_by_socks5()
+        elif socks4:
+            proxy = self.db.get_by_socks4()
+        else:
+            proxy = self.db.get(https) 
         return Proxy.createFromJson(proxy) if proxy else None
 
-    def pop(self, https):
+    def pop(self, https, socks5=False, socks4=False):
         """
         return and delete a useful proxy
         :return:
         """
-        proxy = self.db.pop(https)
+        if socks5:
+            proxy = self.db.pop_by_socks5()
+        elif socks4:
+            proxy = self.db.pop_by_socks4()
+        else:
+            proxy = self.db.pop(https)
         if proxy:
             return Proxy.createFromJson(proxy)
         return None
@@ -61,12 +77,17 @@ class ProxyHandler(object):
         """
         return self.db.delete(proxy.proxy)
 
-    def getAll(self, https=False):
+    def getAll(self, https=False, socks5=False, socks4=False):
         """
         get all proxy from pool as Proxy list
         :return:
         """
-        proxies = self.db.getAll(https)
+        if socks5:
+            proxies = self.db.get_all_by_socks5()
+        elif socks4:
+            proxies = self.db.get_all_by_socks4()
+        else:
+            proxies = self.db.getAll(https)
         return [Proxy.createFromJson(_) for _ in proxies]
 
     def exists(self, proxy):

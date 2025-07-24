@@ -18,7 +18,7 @@ import json
 class Proxy(object):
 
     def __init__(self, proxy, fail_count=0, region="", anonymous="",
-                 source="", check_count=0, last_status="", last_time="", https=False):
+                 source="", check_count=0, last_status="", last_time="", https=False, socks5=False, socks4=False):
         self._proxy = proxy
         self._fail_count = fail_count
         self._region = region
@@ -28,6 +28,8 @@ class Proxy(object):
         self._last_status = last_status
         self._last_time = last_time
         self._https = https
+        self._socks5 = socks5
+        self._socks4 = socks4
 
     @classmethod
     def createFromJson(cls, proxy_json):
@@ -40,7 +42,9 @@ class Proxy(object):
                    check_count=_dict.get("check_count", 0),
                    last_status=_dict.get("last_status", ""),
                    last_time=_dict.get("last_time", ""),
-                   https=_dict.get("https", False)
+                   https=_dict.get("https", False),
+                   socks5=_dict.get("socks5", False),
+                   socks4=_dict.get("socks4", False)
                    )
 
     @property
@@ -91,7 +95,8 @@ class Proxy(object):
     @property
     def to_dict(self):
         """ 属性字典 """
-        return {"proxy": self.proxy,
+        return {"proxy": self.proxy, 
+                "socks5": self.socks5,
                 "https": self.https,
                 "fail_count": self.fail_count,
                 "region": self.region,
@@ -129,6 +134,22 @@ class Proxy(object):
     @region.setter
     def region(self, value):
         self._region = value
+    @property
+    def socks5(self):
+        return self._socks5
+
+    @socks5.setter
+    def socks5(self, value):
+        self._socks5 = value
+    @property
+    def socks4(self):
+        return self._socks4
+
+    @socks4.setter
+    def socks4(self, value):
+        self._socks4 = value
+    
+    
 
     def add_source(self, source_str):
         if source_str:

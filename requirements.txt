@@ -10,3 +10,5 @@ Flask==2.1.1;python_version>"3.6"
 Flask==1.0;python_version<="3.6"
 werkzeug==2.1.0;python_version>"3.6"
 werkzeug==0.15.5;python_version<="3.6"
+requests[socks]==2.20.0  # 新增：支持SOCKS代理
+PySocks==1.7.1  # 新增：SOCKS协议基础库（requests[socks]依赖

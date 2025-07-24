@@ -58,8 +58,17 @@ def index():
 
 @app.route('/get/')
 def get():
-    https = request.args.get("type", "").lower() == 'https'
-    proxy = proxy_handler.get(https)
+    proxy_type = request.args.get("type", "").lower()
+    https = proxy_type == 'https'
+    socks5 = proxy_type == 'socks5'  # 新增SOCKS5筛选
+    socks4 = proxy_type == 'socks4'  # 新增SOCKS5筛选
+    
+    if socks5:
+        proxy = proxy_handler.get(socks5=socks5)
+    elif socks4:
+        proxy = proxy_handler.get(socks4=socks4)
+    else:
+        proxy = proxy_handler.get(https=https)
     return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
 
 

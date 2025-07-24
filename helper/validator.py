@@ -32,7 +32,19 @@ class ProxyValidator(withMetaclass(Singleton)):
     pre_validator = []
     http_validator = []
     https_validator = []
-
+    socks5_validator = []  # 新增：SOCKS5验证器列表
+    socks4_validator = []  # 新增：SOCKS4验证器列表
+    
+     # 新增SOCKS5验证器装饰器
+    @classmethod
+    def addSocks5Validator(cls, func):
+        cls.socks5_validator.append(func)
+        return func        
+    # 新增SOCKS4验证器装饰器
+    @classmethod
+    def addSocks4Validator(cls, func):
+        cls.socks4_validator.append(func)
+        return func   
     @classmethod
     def addPreValidator(cls, func):
         cls.pre_validator.append(func)
@@ -84,3 +96,31 @@ def httpsTimeOutValidator(proxy):
 def customValidatorExample(proxy):
     """自定义validator函数，校验代理是否可用, 返回True/False"""
     return True
+@ProxyValidator.addSocks5Validator
+def socks5TimeOutValidator(proxy):
+    """SOCKS5检测超时"""
+    # 构建SOCKS5代理格式（支持带认证的代理：username:password@ip:port）
+    proxies = {
+        "http": f"socks5://{proxy}",
+        "https": f"socks5://{proxy}"
+    }
+    try:
+        # 使用配置的HTTP验证地址测试SOCKS5代理
+        r = head(conf.httpUrl, headers=HEADER, proxies=proxies, timeout=conf.verifyTimeout)
+        return True if r.status_code == 200 else False
+    except Exception as e:
+        return False
+@ProxyValidator.addSocks5Validator
+def socks4TimeOutValidator(proxy):
+    """SOCKS4检测超时"""
+    # 构建SOCKS4代理格式（支持带认证的代理：username:password@ip:port）
+    proxies = {
+        "http": f"socks4://{proxy}",
+        "https": f"socks4://{proxy}"
+    }
+    try:
+        # 使用配置的HTTP验证地址测试SOCKS5代理
+        r = head(conf.httpUrl, headers=HEADER, proxies=proxies, timeout=conf.verifyTimeout)
+        return True if r.status_code == 200 else False
+    except Exception as e:
+        return False

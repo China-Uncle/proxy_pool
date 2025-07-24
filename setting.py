@@ -1,3 +1,9 @@
+'''
+Date: 2025-07-24 11:04:34
+LastEditors: 马艳龙 myl86898244@gmail.com
+LastEditTime: 2025-07-24 11:32:31
+FilePath: \proxy_pool\setting.py
+'''
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
@@ -37,7 +43,7 @@ PORT = 5010
 # example:
 #      Redis: redis://:password@ip:port/db
 #      Ssdb:  ssdb://:password@ip:port
-DB_CONN = 'redis://:pwd@127.0.0.1:6379/0'
+DB_CONN = 'redis://:emr@2016@192.168.11.211:6379/0'
 
 # proxy table name
 TABLE_NAME = 'use_proxy'
@@ -55,7 +61,8 @@ PROXY_FETCHER = [
     "freeProxy08",
     "freeProxy09",
     "freeProxy10",
-    "freeProxy11"
+    "freeProxy11",
+    "freeSocks5Proxy01"
 ]
 
 # ############# proxy validator #################
