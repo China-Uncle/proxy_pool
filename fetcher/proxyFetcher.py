@@ -169,6 +169,30 @@ class ProxyFetcher(object):
                 yield each['ip']
         except Exception as e:
             print(e)
+
+    @staticmethod
+    def freeProxy12():
+        """ https://github.com/monosans/proxy-list """
+        r = WebRequest().get("https://github.com/monosans/proxy-list/raw/refs/heads/main/proxies/http.txt", timeout=10)
+        try:
+            for line in r.text:
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            print(e)
+
+    @staticmethod
+    def freeProxy13():
+        """ https://github.com/TheSpeedX/PROXY-List """
+        r = WebRequest().get("https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt", timeout=10)
+        try:
+            for line in r.text:
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            print(e)
     @staticmethod
     def freeSocks5Proxy01():
         """示例：采集支持SOCKS5的代理源"""
