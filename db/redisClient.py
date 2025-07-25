@@ -47,7 +47,7 @@ class RedisClient(object):
                                                                    socket_timeout=5,
                                                                    **kwargs))
 
-    def get(self,  https=False, socks5=False, socks4=False):
+    def get(self,  https, socks5, socks4):
         """
         返回一个代理
         :return:
@@ -59,6 +59,8 @@ class RedisClient(object):
         elif socks5:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("socks5"), items))
+            print('获取的socks5代理')
+            print(proxies)
             return choice(proxies) if proxies else None
         elif socks4:
             items = self.__conn.hvals(self.name)
@@ -78,7 +80,7 @@ class RedisClient(object):
         data = self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
         return data
 
-    def pop(self,  https=False, socks5=False, socks4=False):
+    def pop(self,  https, socks5, socks4):
         """
         弹出一个代理
         :return: dict {proxy: value}
@@ -112,7 +114,7 @@ class RedisClient(object):
         """
         return self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
 
-    def getAll(self,  https=False, socks5=False, socks4=False):
+    def getAll(self,  https, socks5, socks4):
         """
         字典形式返回所有代理, 使用changeTable指定hash name
         :return:
