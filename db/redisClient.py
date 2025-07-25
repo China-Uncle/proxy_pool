@@ -52,6 +52,8 @@ class RedisClient(object):
         返回一个代理
         :return:
         """
+        log = LogHandler('redis_client')
+        log.info('获取代理') 
         if https:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items))
@@ -59,8 +61,7 @@ class RedisClient(object):
         elif socks5:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("socks5"), items))
-            print('获取的socks5代理')
-            print(proxies)
+            log.info('获取的socks5代理') 
             return choice(proxies) if proxies else None
         elif socks4:
             items = self.__conn.hvals(self.name)
