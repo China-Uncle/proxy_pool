@@ -194,7 +194,7 @@ class ProxyFetcher(object):
         except Exception as e:
             print(e)
     @staticmethod
-    def freeSocks5Proxy01():
+    def Socks5Proxy01():
         """示例：采集支持SOCKS5的代理源https://github.com/TheSpeedX/PROXY-List"""
         url = "https://github.com/TheSpeedX/PROXY-List/raw/refs/heads/master/socks5.txt"  # 替换为实际SOCKS5代理源
         try:
@@ -218,69 +218,144 @@ class ProxyFetcher(object):
                 port = line.split(':')[1]
                 yield f"{ip}:{port}"  # 返回host:port格式
         except Exception as e:
-            print(f"采集SOCKS5代理失败: {e}")
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
+    @staticmethod
+    def Socks5Proxy02():
+        """示例：采集支持SOCKS4的代理源https://github.com/fyvri/fresh-proxy-list?tab=readme-ov-file"""
+        url = "https://raw.githubusercontent.com/fyvri/fresh-proxy-list/archive/storage/classic/socks5.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
+    @staticmethod
+    def Socks5Proxy03():
+        """示例：采集支持SOCKS5的代理源
+        https://github.com/gfpcom/free-proxy-list/tree/main/list
+        """
+        url = "https://raw.githubusercontent.com/gfpcom/free-proxy-list/refs/heads/main/list/socks5.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                #内容为socks5://001.224.3.122:3888 
+                line = line.replace('socks5://', '')
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
+    @staticmethod
+    def Socks5Proxy04():
+        """示例：采集支持SOCKS5的代理源
+        https://github.com/xing2kong/fresh-proxy-list--?utm_source=chatgpt.com
+        """
+        url = "https://vakhov.github.io/fresh-proxy-list/socks5.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
+    @staticmethod
+    def Socks4Proxy02():
+        """示例：采集支持SOCKS4的代理源https://github.com/fyvri/fresh-proxy-list?tab=readme-ov-file"""
+        url = "https://raw.githubusercontent.com/fyvri/fresh-proxy-list/archive/storage/classic/socks4.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
+    @staticmethod
+    def Socks4Proxy03():
+        """示例：采集支持SOCKS4的代理源
+        https://github.com/gfpcom/free-proxy-list/tree/main/list
+        """
+        url = "https://raw.githubusercontent.com/gfpcom/free-proxy-list/refs/heads/main/list/socks4.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                line = line.replace('socks4://', '')
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")   
+    @staticmethod
+    def Socks4Proxy04():
+        """示例：采集支持SOCKS4的代理源
+        https://github.com/xing2kong/fresh-proxy-list--?utm_source=chatgpt.com
+        """
+        url = "https://vakhov.github.io/fresh-proxy-list/socks4.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines(): 
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")  
+    @staticmethod
+    def HttpsProxy01():
+        """示例：采集支持SOCKS4的代理源https://github.com/fyvri/fresh-proxy-list?tab=readme-ov-file"""
+        url = "https://raw.githubusercontent.com/fyvri/fresh-proxy-list/archive/storage/classic/https.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}") 
+    @staticmethod
+    def HttpsProxy02():
+        """示例：采集支持HTTPS的代理源
+        https://github.com/gfpcom/free-proxy-list/tree/main/list
+        """
+        url = "https://raw.githubusercontent.com/gfpcom/free-proxy-list/refs/heads/main/list/https.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            #获取方法名
+            func_name = sys._getframe().f_code.co_name
+            print(f"{func_name}采集代理失败: {e}")
             
-    # @staticmethod
-    # def wallProxy01():
-    #     """
-    #     PzzQz https://pzzqz.com/
-    #     """
-    #     from requests import Session
-    #     from lxml import etree
-    #     session = Session()
-    #     try:
-    #         index_resp = session.get("https://pzzqz.com/", timeout=20, verify=False).text
-    #         x_csrf_token = re.findall('X-CSRFToken": "(.*?)"', index_resp)
-    #         if x_csrf_token:
-    #             data = {"http": "on", "ping": "3000", "country": "cn", "ports": ""}
-    #             proxy_resp = session.post("https://pzzqz.com/", verify=False,
-    #                                       headers={"X-CSRFToken": x_csrf_token[0]}, json=data).json()
-    #             tree = etree.HTML(proxy_resp["proxy_html"])
-    #             for tr in tree.xpath("//tr"):
-    #                 ip = "".join(tr.xpath("./td[1]/text()"))
-    #                 port = "".join(tr.xpath("./td[2]/text()"))
-    #                 yield "%s:%s" % (ip, port)
-    #     except Exception as e:
-    #         print(e)
-
-    # @staticmethod
-    # def freeProxy10():
-    #     """
-    #     墙外网站 cn-proxy
-    #     :return:
-    #     """
-    #     urls = ['http://cn-proxy.com/', 'http://cn-proxy.com/archives/218']
-    #     request = WebRequest()
-    #     for url in urls:
-    #         r = request.get(url, timeout=10)
-    #         proxies = re.findall(r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>[\w\W]<td>(\d+)</td>', r.text)
-    #         for proxy in proxies:
-    #             yield ':'.join(proxy)
-
-    # @staticmethod
-    # def freeProxy11():
-    #     """
-    #     https://proxy-list.org/english/index.php
-    #     :return:
-    #     """
-    #     urls = ['https://proxy-list.org/english/index.php?p=%s' % n for n in range(1, 10)]
-    #     request = WebRequest()
-    #     import base64
-    #     for url in urls:
-    #         r = request.get(url, timeout=10)
-    #         proxies = re.findall(r"Proxy\('(.*?)'\)", r.text)
-    #         for proxy in proxies:
-    #             yield base64.b64decode(proxy).decode()
-
-    # @staticmethod
-    # def freeProxy12():
-    #     urls = ['https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1']
-    #     request = WebRequest()
-    #     for url in urls:
-    #         r = request.get(url, timeout=10)
-    #         proxies = re.findall(r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>[\s\S]*?<td>(\d+)</td>', r.text)
-    #         for proxy in proxies:
-    #             yield ':'.join(proxy)
+   
 
 
 if __name__ == '__main__':

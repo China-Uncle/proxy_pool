@@ -1,7 +1,7 @@
 '''
 Date: 2025-07-24 11:04:34
 LastEditors: 马艳龙 myl86898244@gmail.com
-LastEditTime: 2025-07-25 14:40:15
+LastEditTime: 2025-07-25 17:25:25
 FilePath: \proxy_pool\setting.py
 '''
 # -*- coding: utf-8 -*-
@@ -64,8 +64,15 @@ PROXY_FETCHER = [
     "freeProxy11",
     "freeProxy12",
     "freeProxy13",
-    "freeSocks5Proxy01",
-    "Socks4Proxy01"
+    "Socks5Proxy01",
+    "Socks5Proxy02",
+    "Socks5Proxy03",
+    "Socks5Proxy04",
+    "Socks4Proxy01",
+    "Socks4Proxy02",
+    "Socks4Proxy03",
+    "Socks4Proxy04",
+    "HttpsProxy01"
 ]
 
 # ############# proxy validator #################
