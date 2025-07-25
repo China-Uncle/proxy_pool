@@ -18,7 +18,7 @@ import json
 class Proxy(object):
 
     def __init__(self, proxy, fail_count=0, region="", anonymous="",
-                 source="", check_count=0, last_status="", last_time="", https=False, socks5=False, socks4=False):
+                 source="", check_count=0, last_status="", last_time="", https=False, socks5=False, socks4=False,link_type=""):
         self._proxy = proxy
         self._fail_count = fail_count
         self._region = region
@@ -30,6 +30,7 @@ class Proxy(object):
         self._https = https
         self._socks5 = socks5
         self._socks4 = socks4
+        self._link_type = link_type
 
     @classmethod
     def createFromJson(cls, proxy_json):
@@ -44,7 +45,8 @@ class Proxy(object):
                    last_time=_dict.get("last_time", ""),
                    https=_dict.get("https", False),
                    socks5=_dict.get("socks5", False),
-                   socks4=_dict.get("socks4", False)
+                   socks4=_dict.get("socks4", False),
+                   link_type=_dict.get("link_type", "")
                    )
 
     @property
@@ -104,7 +106,10 @@ class Proxy(object):
                 "source": self.source,
                 "check_count": self.check_count,
                 "last_status": self.last_status,
-                "last_time": self.last_time}
+                "last_time": self.last_time,
+                "socks5":self.socks5,
+                "socks4":self.socks4,
+                "link_type":self.link_type}
 
     @property
     def to_json(self):
@@ -148,6 +153,13 @@ class Proxy(object):
     @socks4.setter
     def socks4(self, value):
         self._socks4 = value
+    @property
+    def link_type(self):
+        return self._link_type
+
+    @link_type.setter
+    def link_type(self, value):
+        self._link_type = value
     
     
 

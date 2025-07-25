@@ -45,11 +45,11 @@ class DoValidator(object):
         if proxy.source == "freeSocks5Proxy01":
             # 新增：SOCKS5验证
              socks5_r = cls.socks5Validator(proxy)
+             proxy.link_type = "socks5"
         else:
             http_r = cls.httpValidator(proxy)
-            https_r = False if not http_r else cls.httpsValidator(proxy)
-        
-       
+            https_r = False if not http_r else cls.httpsValidator(proxy) 
+            proxy.link_type = "http" if https_r else "https" 
         proxy.check_count += 1
         proxy.last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         proxy.last_status = True if http_r or socks5_r else False
