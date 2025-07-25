@@ -1,7 +1,7 @@
 '''
 Date: 2025-07-24 11:04:34
 LastEditors: 马艳龙 myl86898244@gmail.com
-LastEditTime: 2025-07-24 11:25:39
+LastEditTime: 2025-07-25 10:35:31
 FilePath: \proxy_pool\handler\proxyHandler.py
 '''
 # -*- coding: utf-8 -*-
@@ -39,12 +39,7 @@ class ProxyHandler(object):
             https: True/False
         Returns:
         """
-        if socks5:
-            proxy = self.db.get_by_socks5()
-        elif socks4:
-            proxy = self.db.get_by_socks4()
-        else:
-            proxy = self.db.get(https) 
+        proxy = self.db.get(https,socks5, socks4) 
         return Proxy.createFromJson(proxy) if proxy else None
 
     def pop(self, https, socks5=False, socks4=False):
@@ -52,12 +47,7 @@ class ProxyHandler(object):
         return and delete a useful proxy
         :return:
         """
-        if socks5:
-            proxy = self.db.pop_by_socks5()
-        elif socks4:
-            proxy = self.db.pop_by_socks4()
-        else:
-            proxy = self.db.pop(https)
+        proxy = self.db.pop(https,socks5, socks4)
         if proxy:
             return Proxy.createFromJson(proxy)
         return None

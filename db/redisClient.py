@@ -47,7 +47,7 @@ class RedisClient(object):
                                                                    socket_timeout=5,
                                                                    **kwargs))
 
-    def get(self, https):
+    def get(self,  https=False, socks5=False, socks4=False):
         """
         返回一个代理
         :return:
@@ -56,6 +56,14 @@ class RedisClient(object):
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items))
             return choice(proxies) if proxies else None
+        elif socks5:
+            items = self.__conn.hvals(self.name)
+            proxies = list(filter(lambda x: json.loads(x).get("socks5"), items))
+            return choice(proxies) if proxies else None
+        elif socks4:
+            items = self.__conn.hvals(self.name)
+            proxies = list(filter(lambda x: json.loads(x).get("socks4"), items))
+
         else:
             proxies = self.__conn.hkeys(self.name)
             proxy = choice(proxies) if proxies else None
@@ -70,12 +78,12 @@ class RedisClient(object):
         data = self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
         return data
 
-    def pop(self, https):
+    def pop(self,  https=False, socks5=False, socks4=False):
         """
         弹出一个代理
         :return: dict {proxy: value}
         """
-        proxy = self.get(https)
+        proxy = self.get(https,socks5, socks4)
         if proxy:
             self.__conn.hdel(self.name, json.loads(proxy).get("proxy", ""))
         return proxy if proxy else None
@@ -104,7 +112,7 @@ class RedisClient(object):
         """
         return self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
 
-    def getAll(self, https):
+    def getAll(self,  https=False, socks5=False, socks4=False):
         """
         字典形式返回所有代理, 使用changeTable指定hash name
         :return:
@@ -112,6 +120,10 @@ class RedisClient(object):
         items = self.__conn.hvals(self.name)
         if https:
             return list(filter(lambda x: json.loads(x).get("https"), items))
+        elif socks5:
+            return list(filter(lambda x: json.loads(x).get("socks5"), items))
+        elif socks4:
+            return list(filter(lambda x: json.loads(x).get("socks4"), items))
         else:
             return items
 
@@ -151,53 +163,3 @@ class RedisClient(object):
         except ResponseError as e:
             log.error('redis connection error: %s' % str(e), exc_info=True)
             return e
-
-def get_by_socks4(self):
-    """获取一个支持socks4的代理"""
-    items = self.__conn.hvals(self.name)
-    # 筛选出socks4=True的代理
-    proxies = list(filter(lambda x: json.loads(x).get("socks4"), items))
-    return choice(proxies) if proxies else None
-
-def pop_by_socks4(self):
-    """取出并删除一个支持socks4的代理"""
-    items = self.__conn.hvals(self.name)
-    proxies = list(filter(lambda x: json.loads(x).get("socks4"), items))
-    if proxies:
-        proxy = choice(proxies)
-        proxy_dict = json.loads(proxy)
-        self.__conn.hdel(self.name, proxy_dict["proxy"])
-        return proxy
-    return None
-
-def get_all_by_socks4(self):
-    """获取所有支持socks4的代理"""
-    items = self.__conn.hvals(self.name)
-    return list(filter(lambda x: json.loads(x).get("socks4"), items))
-
-
-
-
-
-def get_by_socks4(self):
-    """获取一个支持socks4的代理"""
-    items = self.__conn.hvals(self.name)
-    # 筛选出socks5=true的代理
-    proxies = list(filter(lambda x: json.loads(x).get("socks4"), items))
-    return choice(proxies) if proxies else none
-
-def pop_by_socks5(self):
-    """取出并删除一个支持socks5的代理"""
-    items = self.__conn.hvals(self.name)
-    proxies = list(filter(lambda x: json.loads(x).get("socks5"), items))
-    if proxies:
-        proxy = choice(proxies)
-        proxy_dict = json.loads(proxy)
-        self.__conn.hdel(self.name, proxy_dict["proxy"])
-        return proxy
-    return none
-
-def get_all_by_socks5(self):
-    """获取所有支持socks5的代理"""
-    items = self.__conn.hvals(self.name)
-    return list(filter(lambda x: json.loads(x).get("socks5"), items))

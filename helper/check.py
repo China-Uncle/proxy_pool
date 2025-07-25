@@ -39,14 +39,21 @@ class DoValidator(object):
         Returns:
             Proxy Object
         """
-        http_r = cls.httpValidator(proxy)
-        https_r = False if not http_r else cls.httpsValidator(proxy)
-        # 新增：仅当HTTP验证通过时，才验证SOCKS5
-        socks5_r = False if not http_r else cls.socks5Validator(proxy)
+        https_r = False
+        socks5_r = False
+        http_r = False
+        if proxy.source == "freeSocks5Proxy01":
+            # 新增：SOCKS5验证
+             socks5_r = cls.socks5Validator(proxy)
+        else:
+            http_r = cls.httpValidator(proxy)
+            https_r = False if not http_r else cls.httpsValidator(proxy)
+        
+       
         proxy.check_count += 1
         proxy.last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         proxy.last_status = True if http_r else False
-        if http_r:
+        if http_r or socks5_r:
             if proxy.fail_count > 0:
                 proxy.fail_count -= 1
             proxy.https = True if https_r else False

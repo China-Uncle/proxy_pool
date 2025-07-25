@@ -47,7 +47,7 @@ class SsdbClient(object):
                                                                    socket_timeout=5,
                                                                    **kwargs))
 
-    def get(self, https):
+    def get(self, https,socks5, socks4):
         """
         从hash中随机返回一个代理
         :return:
@@ -55,6 +55,14 @@ class SsdbClient(object):
         if https:
             items_dict = self.__conn.hgetall(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items_dict.values()))
+            return choice(proxies) if proxies else None
+        elif socks5:
+            items_dict = self.__conn.hgetall(self.name)
+            proxies = list(filter(lambda x: json.loads(x).get("socks5"), items_dict.values()))
+            return choice(proxies) if proxies else None
+        elif socks4:
+            items_dict = self.__conn.hgetall(self.name)
+            proxies = list(filter(lambda x: json.loads(x).get("socks4"), items_dict.values()))
             return choice(proxies) if proxies else None
         else:
             proxies = self.__conn.hkeys(self.name)
@@ -70,12 +78,12 @@ class SsdbClient(object):
         result = self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
         return result
 
-    def pop(self, https):
+    def pop(self, https,socks5, socks4):
         """
         顺序弹出一个代理
         :return: proxy
         """
-        proxy = self.get(https)
+        proxy = self.get(https, socks5, socks4)
         if proxy:
             self.__conn.hdel(self.name, json.loads(proxy).get("proxy", ""))
         return proxy if proxy else None
@@ -104,7 +112,7 @@ class SsdbClient(object):
         """
         self.__conn.hset(self.name, proxy_obj.proxy, proxy_obj.to_json)
 
-    def getAll(self, https):
+    def getAll(self, https,socks5, socks4):
         """
         字典形式返回所有代理, 使用changeTable指定hash name
         :return:
@@ -112,6 +120,10 @@ class SsdbClient(object):
         item_dict = self.__conn.hgetall(self.name)
         if https:
             return list(filter(lambda x: json.loads(x).get("https"), item_dict.values()))
+        elif socks5:
+            return list(filter(lambda x: json.loads(x).get("socks5"), item_dict.values()))
+        elif socks4:
+            return list(filter(lambda x: json.loads(x).get("socks4"), item_dict.values()))
         else:
             return item_dict.values()
 
