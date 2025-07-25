@@ -61,7 +61,7 @@ def get():
     proxy_type = request.args.get("type", "").lower()
     https = proxy_type == 'https'
     socks5 = proxy_type == 'socks5'  # 新增SOCKS5筛选
-    socks4 = proxy_type == 'socks4'  # 新增SOCKS5筛选 
+    socks4 = proxy_type == 'socks4'  # 新增SOCKS5筛选  
     proxy = proxy_handler.get(https,socks5, socks4)
     return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
 
@@ -87,8 +87,7 @@ def getAll():
     proxy_type = request.args.get("type", "").lower()
     https = proxy_type == 'https'
     socks5 = proxy_type == 'socks5'  # 新增SOCKS5筛选
-    socks4 = proxy_type == 'socks4'  # 新增SOCKS5筛选 
-    return {'https':https,'socks5':socks5,'socks4':socks4}
+    socks4 = proxy_type == 'socks4'  # 新增SOCKS5筛选  
     proxies = proxy_handler.getAll(https, socks5, socks4)
     return jsonify([_.to_dict for _ in proxies])
 
