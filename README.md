@@ -110,6 +110,8 @@ docker run --env DB_CONN=redis://:password@ip:port/0 -p 5010:5010 jhao104/proxy_
 项目目录下运行: 
 ``` bash
 docker-compose up -d
+#重新编译启动
+docker-compose up -d --build
 ```
 
 ### 使用
