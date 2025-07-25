@@ -1,7 +1,7 @@
 '''
 Date: 2025-07-24 11:04:34
 LastEditors: 马艳龙 myl86898244@gmail.com
-LastEditTime: 2025-07-25 10:35:31
+LastEditTime: 2025-07-25 11:40:15
 FilePath: \proxy_pool\handler\proxyHandler.py
 '''
 # -*- coding: utf-8 -*-
@@ -72,12 +72,8 @@ class ProxyHandler(object):
         get all proxy from pool as Proxy list
         :return:
         """
-        if socks5:
-            proxies = self.db.get_all_by_socks5()
-        elif socks4:
-            proxies = self.db.get_all_by_socks4()
-        else:
-            proxies = self.db.getAll(https)
+      
+        proxies = self.db.getAll(https,socks5,socks4)
         return [Proxy.createFromJson(_) for _ in proxies]
 
     def exists(self, proxy):
