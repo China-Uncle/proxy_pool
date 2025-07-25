@@ -141,7 +141,7 @@ class RedisClient(object):
         返回代理数量
         :return:
         """
-        proxies = self.getAll(https=False)
+        proxies = self.getAll(https=False, socks5=False, socks4=False)
         return {'total': len(proxies), 'https': len(list(filter(lambda x: json.loads(x).get("https"), proxies)))}
 
     def changeTable(self, name):
