@@ -1,7 +1,7 @@
 '''
 Date: 2025-07-24 11:04:34
 LastEditors: 马艳龙 myl86898244@gmail.com
-LastEditTime: 2025-07-25 10:42:00
+LastEditTime: 2025-07-25 10:44:14
 FilePath: \proxy_pool\setting.py
 '''
 # -*- coding: utf-8 -*-
@@ -52,7 +52,7 @@ TABLE_NAME = 'use_proxy'
 # ###### config the proxy fetch function ######
 PROXY_FETCHER = [
     "freeProxy01",
-    "freeProxy02",
+   #  "freeProxy02",
     "freeProxy03",
     "freeProxy04",
     "freeProxy05",
