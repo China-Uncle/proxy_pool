@@ -72,7 +72,8 @@ PROXY_FETCHER = [
     "Socks4Proxy02",
     "Socks4Proxy03",
     "Socks4Proxy04",
-    "HttpsProxy01"
+    "HttpsProxy01",
+    "HttpsProxy02"
 ]
 
 # ############# proxy validator #################
