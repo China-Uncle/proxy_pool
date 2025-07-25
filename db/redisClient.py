@@ -54,6 +54,9 @@ class RedisClient(object):
         """
         log = LogHandler('redis_client')
         log.info('获取代理') 
+        log.info(https)
+        log.info(socks5)
+        log.info(socks4)
         if https:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items))
