@@ -106,7 +106,7 @@ def socks5TimeOutValidator(proxy):
     }
     try:
         # 使用配置的HTTP验证地址测试SOCKS5代理
-        r = head(conf.httpUrl, headers=HEADER, proxies=proxies, timeout=conf.verifyTimeout)
+        r = head(conf.httpUrl, headers=HEADER, proxies=proxies, timeout=conf.verifyTimeout,verify=False)
         return True if r.status_code == 200 else False
     except Exception as e:
         return False
