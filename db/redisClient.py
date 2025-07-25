@@ -63,7 +63,7 @@ class RedisClient(object):
         elif socks4:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("socks4"), items))
-
+            return choice(proxies) if proxies else None
         else:
             proxies = self.__conn.hkeys(self.name)
             proxy = choice(proxies) if proxies else None
