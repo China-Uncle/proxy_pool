@@ -206,6 +206,20 @@ class ProxyFetcher(object):
                 yield f"{ip}:{port}"  # 返回host:port格式
         except Exception as e:
             print(f"采集SOCKS5代理失败: {e}")
+    @staticmethod
+    def Socks4Proxy01():
+        """示例：采集支持SOCKS4的代理源https://github.com/TheSpeedX/PROXY-List"""
+        url = "https://github.com/TheSpeedX/PROXY-List/raw/refs/heads/master/socks4.txt"  # 替换为实际SOCKS5代理源
+        try:
+            #内容为每行一个IP:端口 
+            tree = WebRequest().get(url)
+            for line in tree.text.splitlines():
+                ip = line.split(':')[0]
+                port = line.split(':')[1]
+                yield f"{ip}:{port}"  # 返回host:port格式
+        except Exception as e:
+            print(f"采集SOCKS5代理失败: {e}")
+            
     # @staticmethod
     # def wallProxy01():
     #     """

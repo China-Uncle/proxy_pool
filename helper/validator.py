@@ -110,7 +110,7 @@ def socks5TimeOutValidator(proxy):
         return True if r.status_code == 200 else False
     except Exception as e:
         return False
-@ProxyValidator.addSocks5Validator
+@ProxyValidator.addSocks4Validator
 def socks4TimeOutValidator(proxy):
     """SOCKS4检测超时"""
     # 构建SOCKS4代理格式（支持带认证的代理：username:password@ip:port）

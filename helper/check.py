@@ -41,23 +41,31 @@ class DoValidator(object):
         """
         https_r = False
         socks5_r = False
+        socks4_r = False
         http_r = False
-        if proxy.source == "freeSocks5Proxy01":
+        proxy.last_status = False
+        #如果proxy.source 包含socks4则使用socks4校验
+        if "Socks4" in proxy.source:
+             proxy.last_status = cls.socks4Validator(proxy)
+             proxy.link_type = "socks4"
+             proxy.socks4 = True
+        elif "Socks5" in proxy.source:
             # 新增：SOCKS5验证
-             socks5_r = cls.socks5Validator(proxy)
+             proxy.last_status = cls.socks5Validator(proxy)
              proxy.link_type = "socks5"
+             proxy.socks5 = True
         else:
             http_r = cls.httpValidator(proxy)
             https_r = False if not http_r else cls.httpsValidator(proxy) 
-            proxy.link_type = "http" if https_r else "https" 
+            proxy.link_type = "http" if https_r else "https"
+            proxy.last_status = http_r
+            proxy.https = True if https_r else False
         proxy.check_count += 1
         proxy.last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        proxy.last_status = True if http_r or socks5_r else False
-        if http_r or socks5_r:
+        # proxy.last_status = True if http_r or socks5_r or socks4_r else False
+        if proxy.last_status:
             if proxy.fail_count > 0:
-                proxy.fail_count -= 1
-            proxy.https = True if https_r else False
-            proxy.socks5 = True if socks5_r else False  # 新增：设置SOCKS5属性
+                proxy.fail_count -= 1 
             if work_type == "raw":
                 proxy.region = cls.regionGetter(proxy) if cls.conf.proxyRegion else ""
         else:
@@ -74,6 +82,13 @@ class DoValidator(object):
     @classmethod
     def socks5Validator(cls, proxy):
         for func in ProxyValidator.socks5_validator:
+            if not func(proxy.proxy):
+                return False
+        return True
+    # 新增：SOCKS4验证方法
+    @classmethod
+    def socks4Validator(cls, proxy):
+        for func in ProxyValidator.socks4_validator:
             if not func(proxy.proxy):
                 return False
         return True
