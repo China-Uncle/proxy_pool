@@ -195,8 +195,8 @@ class ProxyFetcher(object):
             print(e)
     @staticmethod
     def freeSocks5Proxy01():
-        """示例：采集支持SOCKS5的代理源"""
-        url = "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt"  # 替换为实际SOCKS5代理源
+        """示例：采集支持SOCKS5的代理源https://github.com/TheSpeedX/PROXY-List"""
+        url = "https://github.com/TheSpeedX/PROXY-List/raw/refs/heads/master/socks5.txt"  # 替换为实际SOCKS5代理源
         try:
             #内容为每行一个IP:端口 
             tree = WebRequest().get(url)
