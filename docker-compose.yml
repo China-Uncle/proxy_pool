@@ -9,6 +9,34 @@ services:
       - proxy_redis
     environment:
       DB_CONN: "redis://@proxy_redis:6379/0"
+    # 新增：限制日志大小，避免占满磁盘
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"   # 单个日志文件最大10MB
+        max-file: "3"     # 最多保留3个日志文件（总容量约30MB）
+    # 新增：容器退出后自动重启（增强稳定性）
+    restart: always
+    # 新增：指定容器使用的内存上限（根据实际需求调整）
+    mem_limit: 512m
+
   proxy_redis:
-    image: "redis"
+    image: "redis:alpine"  # 改用 alpine 版本，体积更小
     container_name: proxy_redis
+    ports:
+      - "46379:6379"
+    # 新增：Redis 数据持久化（避免容器重启后数据丢失）
+    volumes:
+      - proxy_redis_data:/data  # 挂载数据卷到 /data（Redis 默认数据目录）
+    # 新增：限制日志大小
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    restart: always
+    mem_limit: 256m  # Redis 内存限制
+
+# 声明数据卷（用于 Redis 持久化）
+volumes:
+  proxy_redis_data:
