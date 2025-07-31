@@ -18,7 +18,7 @@ services:
     # 新增：容器退出后自动重启（增强稳定性）
     restart: always
     # 新增：指定容器使用的内存上限（根据实际需求调整）
-    mem_limit: 512m
+    # mem_limit: 512m
 
   proxy_redis:
     image: "redis:alpine"  # 改用 alpine 版本，体积更小
@@ -35,7 +35,7 @@ services:
         max-size: "5m"
         max-file: "2"
     restart: always
-    mem_limit: 256m  # Redis 内存限制
+    # mem_limit: 256m  # Redis 内存限制
 
 # 声明数据卷（用于 Redis 持久化）
 volumes:
